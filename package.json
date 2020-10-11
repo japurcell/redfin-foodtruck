@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Shows a list of open food trucks at a given datetime",
   "scripts": {
-    "lint": "eslint src/**",
+    "lint": "eslint -c .eslintrc.json src/**",
     "start": "node --experimental-modules src/FoodTruckFinder.js"
   },
   "type": "module",

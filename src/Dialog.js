@@ -1,5 +1,6 @@
 import * as process from 'process';
 import * as readline from 'readline';
+import './typedefs.js';
 
 /**
  * Handles the rendering of food truck info
@@ -8,31 +9,23 @@ import * as readline from 'readline';
 const Dialog = () =>
 {
   /**
-   * Displays food truck data
+   * Displays food truck data.
    *
-   * @param {Array} data
-   * @returns {Promise<Boolean>} - whether or not any data was rendered
+   * @param {PagingState} state - latest paging state
+   * @return {Promise<boolean>} - whether or not more data is available
    */
-  async function render(data)
+  async function render({data, hasMore})
   {
-    let result = true;
+    data.forEach(item => console.log(`${item.name} ${item.address}`));
 
-    if (Array.isArray(data) && data.length)
-    {
-      data.forEach(item => console.log(`${item.name} ${item.address}`));
-    }
-    else
-    {
-      result = false;
-    }
-
-    return Promise.resolve(result);
+    return Promise.resolve(hasMore);
   }
 
   /**
-   * Begins listening for user input to the console
+   * Begins listening for user input to the console.
    *
-   * @param {Function} next - returns a `Promise<boolean>` indicating if more user input is expected
+   * @param {Next} next
+   * @return {Promise<void>}
    */
   async function start(next)
   {
@@ -52,7 +45,10 @@ const Dialog = () =>
     }
 
     readline.emitKeypressEvents(process.stdin);
-    process.stdin.setRawMode(true);
+    if (process.stdin.isTTY)
+    {
+      process.stdin.setRawMode(true);
+    }
 
     await callNext();
 
@@ -70,8 +66,8 @@ const Dialog = () =>
   }
 
   return {
-   render: render,
-   start: start
+    render: render,
+    start: start
   };
 };
 
