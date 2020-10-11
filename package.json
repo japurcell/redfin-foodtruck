@@ -7,7 +7,6 @@
     "start": "node --experimental-modules src/FoodTruckFinder.js"
   },
   "type": "module",
-  "author": "Jeff Purcell",
   "devDependencies": {
     "eslint": "^7.11.0",
     "eslint-config-google": "^0.14.0"
